@@ -1,18 +1,14 @@
 pipeline {
   agent any
-  stages {
-    stage('Source') { // Get code
-      steps {
-        // get code from our Git repository
-        git 'https://github.com/saurabh12j/DevOps-Demo-WebApp.git'
-      }
-    }
-    stage('Build') { // Compile and do unit testing
+  stage('Build') {
+   steps {
+       echo 'Building...'
+   }
+   post {
+       always {
+           jiraSendBuildInfo site: 'devopss4.atlassian.net'
+       }
+   }
+}
 
-      steps {
-        // run Gradle to execute compile and unit testing
-        sh 'mvn -B clean verify'
-      }
-    }
-  }
 }
